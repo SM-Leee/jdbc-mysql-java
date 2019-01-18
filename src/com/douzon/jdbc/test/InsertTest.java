@@ -2,7 +2,6 @@ package com.douzon.jdbc.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -12,11 +11,10 @@ public class InsertTest {
 		boolean result = insert("마음이3", "또치","dog","f","2010-10-10");
 		System.out.println(result);
 	}
-	
+
 	public static boolean insert(String name, String owner,String species, String gender ,String birth) {
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
 		boolean result = false;
 		try {
 			// 1. JDBC Driver(MYSQL) 로딩
@@ -30,22 +28,19 @@ public class InsertTest {
 
 			// 3. Statement 객체를 생성
 			stmt = conn.createStatement();
-			
+
 			// 4. SQL문 실행
 			String sql = "insert into pet values('"+name+"','"+owner+"','"+species+"','"+gender+"','"+birth+"', null)";
 			int count = stmt.executeUpdate(sql);
-			
-			result = count == 1;
-			
+
+			result = count >= 1;
+
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:"+e);
 		} catch (SQLException e) {
 			System.out.println("error:"+e);
 		} finally {
 			try {
-				if(rs != null) {
-					rs.close();
-				}
 				if(stmt != null) {
 					stmt.close();
 				}
@@ -57,6 +52,6 @@ public class InsertTest {
 			}
 		}
 		return result;
-		
+
 	}
 }

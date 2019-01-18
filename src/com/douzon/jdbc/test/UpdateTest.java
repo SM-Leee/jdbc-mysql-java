@@ -2,22 +2,22 @@ package com.douzon.jdbc.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-public class DeleteTest {
+
+public class UpdateTest {
 
 	public static void main(String[] args) {
-		boolean result = delete("마음이3");
+		boolean result = update("Fluffy","이성민","m");
 		System.out.println(result);
 
 	}
 
-
-	public static boolean delete(String name) {
+	public static boolean update(String name, String owner, String gender){
 		boolean result = false;
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 
 		try {
 			// 1. JDBC Driver(MYSQL) 로딩
@@ -29,14 +29,18 @@ public class DeleteTest {
 			String url = "jdbc:mysql://localhost:3306/webdb";
 			conn = DriverManager.getConnection(url,"webdb","webdb");
 
-			// 3. Statement 객체를 생성
-			stmt = conn.createStatement();
+			// 3. SQL문 준비
+			String sql = "update pet set owner = ?, gender =? where name = ?";
+			pstmt = conn.prepareStatement(sql);
 
-			// 4. SQL문 실행
-			String sql = "delete from pet where name = '"+name+"'";
-			int count = stmt.executeUpdate(sql);
-
-			result = count >= 1;
+			// 4. binding 작업
+			pstmt.setString(1, owner);
+			pstmt.setString(2, gender);
+			pstmt.setString(3, name);
+			
+			// 5. SQL 실행
+			int count = pstmt.executeUpdate();
+			result = count >=1;
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:"+e);
@@ -44,8 +48,8 @@ public class DeleteTest {
 			System.out.println("error:"+e);
 		} finally {
 			try {
-				if(stmt != null) {
-					stmt.close();
+				if(pstmt != null) {
+					pstmt.close();
 				}
 				if(conn != null) {
 					conn.close();
@@ -56,4 +60,5 @@ public class DeleteTest {
 		}
 		return result;
 	}
+
 }
