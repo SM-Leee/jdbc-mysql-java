@@ -9,8 +9,8 @@ public class HrMin {
 
 	public static void main(String[] args) {
 
-		getListTest("Georgi");
-		//getListTest("Parto");
+		//getListTest("Georgi");
+		getListTest("Parto");
 		//getListTest("Bamford");
 
 
@@ -24,7 +24,8 @@ public class HrMin {
 		List<EmployeesVo> list = new EmployeesDao().getList(vo);
 
 		for(EmployeesVo vo1 : list) {
-			System.out.println("이름 : "+vo1.getFirst_name()+" "+vo1.getLast_name()+"\t 입사일 : "+vo1.getHire_date());
+			System.out.println("이름 : "+vo1.getFirst_name()+" "+vo1.getLast_name()+"\n 입사일 : "+vo1.getHire_date());
+			System.out.println("======================");
 		}
 	}
 
