@@ -13,6 +13,10 @@ public class BookDaoTest {
 		//insertTest("브레이킹던",2);
 		//insertTest("아리랑",3);
 		//insertTest("귀천",4);
+		//insertTest("젊은그들", 5);
+		//insertTest("아프니까 청춘이다", 6);
+		//insertTest("태박산맥", 3);
+		//insertTest("풀하우스", 7);
 		
 		
 		getListTest();

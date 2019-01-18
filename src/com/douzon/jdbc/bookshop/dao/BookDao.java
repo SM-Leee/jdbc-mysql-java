@@ -13,6 +13,43 @@ import com.douzon.jdbc.bookshop.vo.BookVo;
 
 public class BookDao {
 
+	public boolean update(Long no, String status) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			// 3. SQL문 준비
+			String sql = "update book set status = ? where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			// 4. binding 작업
+			pstmt.setString(1, status);
+			pstmt.setLong(2, no);
+			
+			// 5. SQL 실행
+			int count = pstmt.executeUpdate();
+			result = count >=1;
+
+		} catch (SQLException e) {
+			System.out.println("error:"+e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	public boolean insert(BookVo bookVo) {
 		
 		Connection conn = null;
@@ -79,8 +116,6 @@ public class BookDao {
 				
 				list.add(vo);
 			}
-
-			System.out.println("연결 성공");
 
 
 		} catch (SQLException e) {

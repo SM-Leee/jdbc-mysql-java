@@ -14,6 +14,7 @@ public class AuthorDaoTest {
 		//insertTest("천상병");
 		//insertTest("김동인");
 		//insertTest("김난도");
+		//insertTest("원수연");
 		getListTest();
 
 	}
