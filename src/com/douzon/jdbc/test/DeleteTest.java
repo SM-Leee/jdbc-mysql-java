@@ -6,12 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SelectTest {
+public class DeleteTest {
 
 	public static void main(String[] args) {
+		boolean result = delete("마음이3");
+		System.out.println(result);
+
+	}
+	
+	
+	public static boolean delete(String name) {
+		boolean result = false;
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		
 		try {
 			// 1. JDBC Driver(MYSQL) 로딩
 			Class.forName("com.mysql.jdbc.Driver");
@@ -26,19 +35,10 @@ public class SelectTest {
 			stmt = conn.createStatement();
 			
 			// 4. SQL문 실행
-			String sql = "select name, owner, birth from pet";
-			rs = stmt.executeQuery(sql);
-
-			// 5. 결과 가져오기
-			while(rs.next()) {
-				String name = rs.getString(1);
-				String owner = rs.getString(2);
-				String birth = rs.getString(3);
-				System.out.println(name+":"+owner+":"+birth);
-			}
+			String sql = "delete from pet where name = '"+name+"'";
+			int count = stmt.executeUpdate(sql);
 			
-			System.out.println("연결 성공");
-			
+			result = count == 1;
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:"+e);
@@ -59,7 +59,6 @@ public class SelectTest {
 				e.printStackTrace();
 			}
 		}
-
+		return result;
 	}
-
 }
